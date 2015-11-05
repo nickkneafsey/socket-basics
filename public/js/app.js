@@ -1,3 +1,6 @@
+// var moment = require('moment');
+
+
 var socket = io();
 
 socket.on('connect', function (){
@@ -5,10 +8,11 @@ socket.on('connect', function (){
 });
 
 socket.on('message', function (message) {
+	var momentTimestamp = moment.utc(message.timestamp); //.local().format('h:mm a');
 	console.log('New message:');
 	console.log(message.text);
 
-	$('.messages').append('<p>'+ message.text +'</p>')
+	$('.messages').append('<p><strong>' + momentTimestamp.local().format('h:mm a') + ': </strong>' + message.text + '</p>'); // have timestamp
 });
 
 //Handles submitting or new message
