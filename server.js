@@ -12,31 +12,39 @@ var clientInfo = {};
 
 //Sends current users to provided socket
 function sendCurrentUsers(socket) {
-	var info = clientInfo[socket.id];
+	//var info = clientInfo[socket.id];
 	var users = [];
 
-	if (typeof info === 'undefined') {
-		return;
-	}
+	// if (typeof info === 'undefined') {
+	// 	console.log("cannot fetch users");
+	// 	return;
+	// }
 
 	Object.keys(clientInfo).forEach(function (socketId) {
 		var userInfo = clientInfo[socketId];
 
-		if (info.room === userInfo.room) {
-			users.push(userInfo.name);
-		}
+		// if (info.room === userInfo.room) {
+		// 	users.push(userInfo.name);
+		// }
+		users.push(userInfo.name);
 	});
 
-	socket.emit('message', {
-		name: 'System',
-		text: 'Current users: ' + users.join(', '),
-		timestamp: moment().valueOf()
+	// socket.emit('message', {
+	// 	name: 'System',
+	// 	text: 'Current users: ' + users.join(', '),
+	// 	timestamp: moment().valueOf()
+	// })
+
+	socket.emit('side', {
+		people: users.join('\n')
+		//people: users
 	})
 }
 
 io.on('connection', function (socket) {
+	sendCurrentUsers(socket);
 	console.log('User connected via socket.io!');
-
+	
 	socket.on('disconnect', function () {
 		var userData = clientInfo[socket.id];
 		if (typeof userData !== 'undefined') {
@@ -48,6 +56,7 @@ io.on('connection', function (socket) {
 			});
 			delete clientInfo[socket.id];
 		}
+		sendCurrentUsers(socket);
 	});
 
 	socket.on('joinRoom', function (req){
@@ -63,12 +72,10 @@ io.on('connection', function (socket) {
 	socket.on('message', function (message) {
 		console.log('Message received: ' + message.text);
 
-		if (message.text === '@currentUsers') {
-			sendCurrentUsers(socket);
-		} else {
-			message.timestamp = moment().valueOf();
-			io.to(clientInfo[socket.id].room).emit('message', message);
-		}
+		
+		message.timestamp = moment().valueOf();
+		io.to(clientInfo[socket.id].room).emit('message', message);
+		
 
 		 //socket.broadcast.emit sends to everyone except person that sent it (io.emit for everyone)
 	});

@@ -12,3 +12,16 @@ h1 {
 .messages p {
 	margin: 6px 0;
 }
+
+body {
+    padding-top: 70px;
+}
+
+.title {
+	font-size: 200%;
+	text-align: center;
+}
+
+.navbar {
+    height: 65px;
+}
