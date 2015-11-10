@@ -36,7 +36,7 @@ socket.on('message', function (message) {
 socket.on('side', function (side) {
 	var $sidebar = $('.sidebar');
 	var peopleArray=side.people.split("\n");
-	
+	//console.log(peopleArray);
 	peopleArray.forEach(function(user){
 		console.log(user);
 		var $user = $('<li></li>');
@@ -44,6 +44,12 @@ socket.on('side', function (side) {
 		$sidebar.append($user);
 	})
 });
+
+socket.on('getUser', function(test){
+	$(".navbar-right").append(test.user);
+})
+
+
 //Handles submitting or new message
 
 var $form = $('#message-form');

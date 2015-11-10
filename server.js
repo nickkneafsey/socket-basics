@@ -12,7 +12,8 @@ var clientInfo = {};
 
 //Sends current users to provided socket
 function sendCurrentUsers(socket) {
-	//var info = clientInfo[socket.id];
+	var info = clientInfo[socket.id];
+	console.log(info);
 	var users = [];
 
 	// if (typeof info === 'undefined') {
@@ -20,7 +21,7 @@ function sendCurrentUsers(socket) {
 	// 	return;
 	// }
 
-	Object.keys(clientInfo).forEach(function (socketId) {
+	Object.keys(clientInfo).forEach(function(socketId) {
 		var userInfo = clientInfo[socketId];
 
 		// if (info.room === userInfo.room) {
@@ -28,7 +29,7 @@ function sendCurrentUsers(socket) {
 		// }
 		users.push(userInfo.name);
 	});
-
+	console.log(users);
 	// socket.emit('message', {
 	// 	name: 'System',
 	// 	text: 'Current users: ' + users.join(', '),
@@ -37,15 +38,22 @@ function sendCurrentUsers(socket) {
 
 	socket.emit('side', {
 		people: users.join('\n')
-		//people: users
-	})
+	});
+	if (info) {
+		socket.emit('getUser', {
+			user: info.name
+		});
+	}
+
 }
 
-io.on('connection', function (socket) {
-	sendCurrentUsers(socket);
+io.on('connection', function(socket) {
+	//sendCurrentUsers(socket);
 	console.log('User connected via socket.io!');
-	
-	socket.on('disconnect', function () {
+
+
+
+	socket.on('disconnect', function() {
 		var userData = clientInfo[socket.id];
 		if (typeof userData !== 'undefined') {
 			socket.leave(userData.room);
@@ -59,7 +67,7 @@ io.on('connection', function (socket) {
 		sendCurrentUsers(socket);
 	});
 
-	socket.on('joinRoom', function (req){
+	socket.on('joinRoom', function(req) {
 		clientInfo[socket.id] = req;
 		socket.join(req.room);
 		socket.broadcast.to(req.room).emit('message', {
@@ -67,17 +75,18 @@ io.on('connection', function (socket) {
 			text: req.name + ' has joined!',
 			timestamp: moment().valueOf()
 		});
+		sendCurrentUsers(socket);
 	});
 
-	socket.on('message', function (message) {
+	socket.on('message', function(message) {
 		console.log('Message received: ' + message.text);
 
-		
+
 		message.timestamp = moment().valueOf();
 		io.to(clientInfo[socket.id].room).emit('message', message);
-		
 
-		 //socket.broadcast.emit sends to everyone except person that sent it (io.emit for everyone)
+
+		//socket.broadcast.emit sends to everyone except person that sent it (io.emit for everyone)
 	});
 
 	//timestamp property -Javascript timestamp (milliseconds)
