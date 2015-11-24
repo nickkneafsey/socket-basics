@@ -13,7 +13,8 @@ h1 {
 	margin: 6px 0;
 }
 
-body {
+
+.sidebar {
     padding-top: 70px;
 }
 
@@ -24,4 +25,11 @@ body {
 
 .navbar {
     height: 65px;
+    background-color: black;
+}
+.medio {
+	padding-top: 35px;
+}
+.room-title {
+	font-size: 700%;
 }
