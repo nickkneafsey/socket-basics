@@ -26,10 +26,16 @@ h1 {
 .navbar {
     height: 65px;
     background-color: black;
+    /*background: linear-gradient(to right, black, black,#F5F5F5, black, black);*/
+    /*background: linear-gradient( black, black, black, black, black, white);*/
 }
 .medio {
 	padding-top: 35px;
 }
 .room-title {
 	font-size: 700%;
+}
+
+.navbar-left.title, .navbar-right {
+	color: #339900;
 }
