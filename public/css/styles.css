@@ -39,3 +39,12 @@ h1 {
 .navbar-left.title, .navbar-right {
 	color: #339900;
 }
+.username {
+	color: #339900;
+}
+.thisusername{
+	color: black;
+}
+.time {
+	color: #606060;
+}

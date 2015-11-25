@@ -3,6 +3,7 @@ var name = getQueryVariable('name') || 'Anonymous';
 var room = getQueryVariable('room');
 
 var socket = io();
+var mainUser;
 
 console.log(name + ' wants to join ' + room);
 
@@ -27,8 +28,15 @@ socket.on('message', function (message) {
 	console.log('New message:');
 	console.log(message.text);
 
-	$message.append('<p><strong>' + message.name + ' ' + momentTimestamp.local().format('h:mm a') + '</strong></p>');
+	//$message.append('<p><strong>' + message.name + ' ' + momentTimestamp.local().format('h:mm a') + '</strong></p>');
+	if (message.name === mainUser)
+		$message.append('<p class=thisusername><strong>' + message.name + '</strong></p>');
+	else
+		$message.append('<p class=username><strong>' + message.name + '</strong></p>');
+
+
 	$message.append('<p>' + message.text + '</p>');
+	$message.append('<p class=time><strong>'+ momentTimestamp.local().format('h:mm a') +'</strong></p>');
 	$messages.append($message);
 });
 
@@ -47,6 +55,7 @@ socket.on('side', function (side) {
 
 socket.on('getUser', function(test){
 	$(".navbar-right").append(test.user);
+	mainUser=test.user;
 })
 
 
