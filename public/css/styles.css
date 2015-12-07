@@ -18,17 +18,8 @@ h1 {
     padding-top: 70px;
 }
 
-.title {
-	font-size: 200%;
-	text-align: center;
-}
 
-.navbar {
-    height: 65px;
-    background-color: black;
-    /*background: linear-gradient(to right, black, black,#F5F5F5, black, black);*/
-    /*background: linear-gradient( black, black, black, black, black, white);*/
-}
+
 .medio {
 	padding-top: 35px;
 }
@@ -36,9 +27,9 @@ h1 {
 	font-size: 700%;
 }
 
-.navbar-left.title, .navbar-right {
+/*.navbar-left.title, .navbar-right {
 	color: #339900;
-}
+}*/
 .username {
 	color: #339900;
 }
