@@ -48,7 +48,7 @@ socket.on('side', function (side) {
 	peopleArray.forEach(function(user){
 		//console.log(user);
 		var $user = $('<li></li>');
-		$user.append('<p class="list-group-item">' + user + '</p>');
+		$user.append('<p class="list-group-item sider">' + user + '</p>');
 		$sidebar.append($user);
 	})
 });
